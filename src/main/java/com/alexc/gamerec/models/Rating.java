@@ -23,4 +23,49 @@ public class Rating {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User reviewCreator;
+
+    public Rating() {}
+
+    public Rating(double rating, String reviewText, Game game, User user) {
+        this.rating = rating;
+        this.reviewText = reviewText;
+        this.reviewedGame = game;
+        this.reviewCreator = user;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public String getReviewText() {
+        return reviewText;
+    }
+
+    public void setReviewText(String reviewText) {
+        this.reviewText = reviewText;
+    }
+
+    public Game getReviewedGame() {
+        return reviewedGame;
+    }
+
+    public void setReviewedGame(Game reviewedGame) {
+        this.reviewedGame = reviewedGame;
+    }
+
+    public User getReviewCreator() {
+        return reviewCreator;
+    }
+
+    public void setReviewCreator(User reviewCreator) {
+        this.reviewCreator = reviewCreator;
+    }
 }

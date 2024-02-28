@@ -2,6 +2,7 @@ package com.alexc.gamerec.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,7 +18,14 @@ public class User {
 
     @Column(updatable = false)
     @OneToMany(mappedBy="reviewCreator", fetch = FetchType.LAZY)
-    private List<Rating> userRatings;
+    private List<Rating> userRatings = new ArrayList<Rating>();
+
+    public User() {}
+
+    public User(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     public Long getId() {
         return id;

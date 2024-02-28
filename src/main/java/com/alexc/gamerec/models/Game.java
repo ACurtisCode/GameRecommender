@@ -2,6 +2,7 @@ package com.alexc.gamerec.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,11 +14,23 @@ public class Game {
 
     private String title;
 
-    private String Description;
+    private String description;
 
     @Column(updatable = false)
     @OneToMany(mappedBy="reviewedGame", fetch = FetchType.LAZY)
-    List<Rating> ratingList;
+    List<Rating> ratingList = new ArrayList<Rating>();
+
+    @ManyToMany(mappedBy = "gamesWithTag")
+    List<Tag> tagList = new ArrayList<Tag>();
+
+    public Game() {
+
+    }
+
+    public Game(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
 
     public Long getId() {
         return id;
@@ -32,15 +45,19 @@ public class Game {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public List<Rating> getRatingList() {
         return ratingList;
+    }
+
+    public List<Tag> getTagList() {
+        return tagList;
     }
 
 }
