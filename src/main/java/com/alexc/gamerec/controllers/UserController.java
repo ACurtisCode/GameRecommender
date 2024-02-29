@@ -23,4 +23,11 @@ public class UserController {
         object.put("lastName", user.getLastName());
         return object;
     }
+
+    @PostMapping("/create")
+    @ResponseBody
+    public User createUser(@RequestBody User user) {
+        userServ.createUser(user);
+        return user;
+    }
 }

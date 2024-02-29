@@ -28,4 +28,5 @@ public class RatingController {
         object.put("ratingUser", rating.getReviewCreator().getFirstName() + " " + rating.getReviewCreator().getLastName());
         return object;
     }
+
 }
