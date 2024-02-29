@@ -20,7 +20,8 @@ public class Game {
     @OneToMany(mappedBy="reviewedGame", fetch = FetchType.LAZY)
     List<Rating> ratingList = new ArrayList<Rating>();
 
-    @ManyToMany(mappedBy = "gamesWithTag")
+    @Column(updatable = false)
+    @OneToMany(mappedBy = "taggedGame", fetch = FetchType.LAZY)
     List<Tag> tagList = new ArrayList<Tag>();
 
     public Game() {
@@ -58,6 +59,10 @@ public class Game {
 
     public List<Tag> getTagList() {
         return tagList;
+    }
+
+    public void setTagList(List<Tag> tagList) {
+        this.tagList = tagList;
     }
 
 }

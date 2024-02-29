@@ -14,13 +14,9 @@ public class Tag {
 
     private String name;
 
-    @ManyToMany
-    @JoinTable(
-            name = "games_tags",
-            joinColumns = @JoinColumn(name = "tag_id"),
-            inverseJoinColumns = @JoinColumn(name = "game_id")
-    )
-    private List<Game> gamesWithTag = new ArrayList<Game>();
+    @ManyToOne
+    @JoinTable(name="game_id")
+    private Game taggedGame;
 
     public Tag() {}
 
@@ -40,8 +36,11 @@ public class Tag {
         this.name = name;
     }
 
-    public List<Game> getGamesWithTag() {
-        return gamesWithTag;
+    public Game getTaggedGame() {
+        return taggedGame;
     }
 
+    public void setTaggedGame(Game taggedGame) {
+        this.taggedGame = taggedGame;
+    }
 }

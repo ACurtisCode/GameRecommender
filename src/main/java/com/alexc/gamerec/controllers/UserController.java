@@ -30,4 +30,19 @@ public class UserController {
         userServ.createUser(user);
         return user;
     }
+
+    @PostMapping("/update/{id}")
+    @ResponseBody
+    public User updateUser(@RequestBody User user, @PathVariable("id") Long id) {
+        User updateUser = userServ.findUserById(id);
+        updateUser.setFirstName(user.getFirstName());
+        updateUser.setLastName(user.getLastName());
+        return userServ.updateUser(updateUser);
+    }
+
+    @GetMapping("/delete/{id}")
+    public void deleteUser(@PathVariable("id") Long id) {
+        User user = userServ.findUserById(id);
+        userServ.deleteUser(user);
+    }
 }
