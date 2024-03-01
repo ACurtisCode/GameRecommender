@@ -13,6 +13,7 @@ public class TagController {
     @Autowired
     TagServ tagServ;
 
+    //Read Operations
     @GetMapping("/{id}")
     public Object findTag(@PathVariable("id") Long id) {
         Tag tag = tagServ.getTagById(id);
@@ -22,9 +23,25 @@ public class TagController {
         return object;
     }
 
+    //Create Operations
     @PostMapping("/create")
     @ResponseBody
     public Tag createTag(@RequestBody Tag tag) {
         return tagServ.createTag(tag);
+    }
+
+    //Update Operations
+    @PostMapping("/update/{tagId}")
+    @ResponseBody
+    public Tag updateTag(@RequestBody Tag tag, @PathVariable("tagId") Long id) {
+        Tag updateTag = tagServ.getTagById(id);
+        updateTag.setName(tag.getName());
+        return tagServ.updateTag(updateTag);
+    }
+
+    //Delete Operations
+    @GetMapping("/delete/{tagId}")
+    public void deleteTag(@PathVariable("tagId") Long id) {
+        tagServ.deleteTag(tagServ.getTagById(id));
     }
 }

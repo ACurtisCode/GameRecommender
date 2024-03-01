@@ -13,6 +13,7 @@ public class UserController {
     @Autowired
     UserServ userServ;
 
+    //Read Operations
     @GetMapping("/{id}")
     @ResponseBody
     public Object findUser(@PathVariable("id") Long id) {
@@ -24,6 +25,7 @@ public class UserController {
         return object;
     }
 
+    //Create Operations
     @PostMapping("/create")
     @ResponseBody
     public User createUser(@RequestBody User user) {
@@ -31,6 +33,7 @@ public class UserController {
         return user;
     }
 
+    //Update Operations
     @PostMapping("/update/{id}")
     @ResponseBody
     public User updateUser(@RequestBody User user, @PathVariable("id") Long id) {
@@ -40,6 +43,7 @@ public class UserController {
         return userServ.updateUser(updateUser);
     }
 
+    //Delete Operations
     @GetMapping("/delete/{id}")
     public void deleteUser(@PathVariable("id") Long id) {
         User user = userServ.findUserById(id);
