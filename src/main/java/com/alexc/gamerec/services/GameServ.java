@@ -33,5 +33,12 @@ public class GameServ {
         gameRepo.delete(game);
     }
 
+    public void addTag(Game game, Tag tag) {
+        List<Tag> tags = game.getTagList();
+        tags.addTag(tag);
+        game.setTagList(tags);
+        tagRepo.save(game);
+    }
+
 
 }

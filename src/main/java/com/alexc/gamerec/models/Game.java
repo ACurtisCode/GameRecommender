@@ -21,7 +21,12 @@ public class Game {
     List<Rating> ratingList = new ArrayList<Rating>();
 
     @ManyToMany(mappedBy = "gamesWithTag")
-    List<Tag> tagList = new ArrayList<Tag>();
+    @JoinTable(
+        name = "games_tags",
+        joinColumns = @JoinColumn(name = "game_id")
+        inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tagList;
 
     public Game() {
 

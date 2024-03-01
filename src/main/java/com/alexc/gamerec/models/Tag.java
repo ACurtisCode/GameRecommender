@@ -20,9 +20,7 @@ public class Tag {
             joinColumns = @JoinColumn(name = "tag_id"),
             inverseJoinColumns = @JoinColumn(name = "game_id")
     )
-    private List<Game> gamesWithTag = new ArrayList<Game>();
-
-    public Tag() {}
+    private List<Game> gamesWithTag;
 
     public Tag(String name) {
         this.name = name;
