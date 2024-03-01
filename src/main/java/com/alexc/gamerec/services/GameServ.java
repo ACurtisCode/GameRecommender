@@ -1,9 +1,12 @@
 package com.alexc.gamerec.services;
 
 import com.alexc.gamerec.models.Game;
+import com.alexc.gamerec.models.Tag;
 import com.alexc.gamerec.repositories.GameRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class GameServ {
@@ -35,9 +38,9 @@ public class GameServ {
 
     public void addTag(Game game, Tag tag) {
         List<Tag> tags = game.getTagList();
-        tags.addTag(tag);
+        tags.add(tag);
         game.setTagList(tags);
-        tagRepo.save(game);
+        gameRepo.save(game);
     }
 
 

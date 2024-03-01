@@ -48,12 +48,15 @@ public class GameController {
         return gameServ.updateGame(updateGame);
     }
     @PostMapping("/attachtag/{gameId}/{tagId}")
-    public Game attachTag(@PathVariable("gameId") Long gameId, @PathVariable("tagId") Long tagId) {
+    public void attachTag(@PathVariable("gameId") Long gameId, @PathVariable("tagId") Long tagId) {
+//        Game game = gameServ.findGameById(gameId);
+//        List<Tag> gameTags = game.getTagList();
+//        gameTags.add(tagServ.getTagById(tagId));
+//        game.setTagList(gameTags);
+//        return gameServ.updateGame(game);
+        Tag tag = tagServ.getTagById(tagId);
         Game game = gameServ.findGameById(gameId);
-        List<Tag> gameTags = game.getTagList();
-        gameTags.add(tagServ.getTagById(tagId));
-        game.setTagList(gameTags);
-        return gameServ.updateGame(game);
+        gameServ.addTag(game, tag);
     }
 
     //Delete Operations

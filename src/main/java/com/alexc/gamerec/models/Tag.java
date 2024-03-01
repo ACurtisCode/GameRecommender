@@ -14,13 +14,15 @@ public class Tag {
 
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "games_tags",
             joinColumns = @JoinColumn(name = "tag_id"),
             inverseJoinColumns = @JoinColumn(name = "game_id")
     )
     private List<Game> gamesWithTag;
+
+    public Tag() {}
 
     public Tag(String name) {
         this.name = name;

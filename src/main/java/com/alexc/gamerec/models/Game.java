@@ -20,10 +20,10 @@ public class Game {
     @OneToMany(mappedBy="reviewedGame", fetch = FetchType.LAZY)
     List<Rating> ratingList = new ArrayList<Rating>();
 
-    @ManyToMany(mappedBy = "gamesWithTag")
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "games_tags",
-        joinColumns = @JoinColumn(name = "game_id")
+        joinColumns = @JoinColumn(name = "game_id"),
         inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private List<Tag> tagList;
