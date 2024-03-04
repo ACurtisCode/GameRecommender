@@ -21,16 +21,21 @@ public class GameController {
     //Read Operations
     @RequestMapping("/{id}")
     @ResponseBody
-    public Object findUser(@PathVariable("id") Long id) {
+    public Game findGame(@PathVariable("id") Long id) {
         Game game = gameServ.findGameById(id);
-        HashMap<String, Object> object = new HashMap<>();
-        object.put("gameId", game.getId());
-        object.put("gameTitle", game.getTitle());
-        object.put("gameDescription", game.getDescription());
-        object.put("tagList", game.getTagList());
-        return object;
+//        HashMap<String, Object> object = new HashMap<>();
+//        object.put("gameId", game.getId());
+//        object.put("gameTitle", game.getTitle());
+//        object.put("gameDescription", game.getDescription());
+//        object.put("tagList", game.getTagList());
+//        return object;
+        return game;
     }
-
+    @RequestMapping("/find")
+    @ResponseBody
+    public List<Game> findGamesTitle(@RequestParam("title") String title) {
+        return gameServ.findGamesByTitle(title);
+    }
     //Create Operations
     @PostMapping("/create")
     @ResponseBody
@@ -47,22 +52,29 @@ public class GameController {
         updateGame.setDescription(game.getDescription());
         return gameServ.updateGame(updateGame);
     }
+        //with IDs
     @PostMapping("/attachtag/{gameId}/{tagId}")
     public void attachTag(@PathVariable("gameId") Long gameId, @PathVariable("tagId") Long tagId) {
-//        Game game = gameServ.findGameById(gameId);
-//        List<Tag> gameTags = game.getTagList();
-//        gameTags.add(tagServ.getTagById(tagId));
-//        game.setTagList(gameTags);
-//        return gameServ.updateGame(game);
         Tag tag = tagServ.getTagById(tagId);
         Game game = gameServ.findGameById(gameId);
         gameServ.addTag(game, tag);
     }
+        //with JSON objects
+    @PostMapping("/attachtag")
+    public void attachTag(@RequestBody Game game, @RequestBody Tag tag) {
+        gameServ.addTag(game, tag);
+    }
 
     //Delete Operations
+        //With ID
     @GetMapping("/delete/{id}")
     public void deleteGame(@PathVariable("id") Long id) {
         Game game = gameServ.findGameById(id);
+        gameServ.deleteGame(game);
+    }
+        //With JSON object
+    @GetMapping("/delete")
+    public void deleteGame(@RequestBody Game game) {
         gameServ.deleteGame(game);
     }
 }

@@ -4,6 +4,7 @@ import com.alexc.gamerec.models.Game;
 import com.alexc.gamerec.models.Tag;
 import com.alexc.gamerec.repositories.GameRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,10 @@ public class GameServ {
             return null;
         }
         return gameRepo.findById(id).get();
+    }
+
+    public List<Game> findGamesByTitle(String title) {
+        return gameRepo.findGamesByTitle(title);
     }
 
     public Game updateGame(Game game) {

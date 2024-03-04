@@ -40,9 +40,9 @@ public class Tag {
         this.name = name;
     }
 
-    public List<Game> getGamesWithTag() {
-        return gamesWithTag;
-    }
+//    public List<Game> getGamesWithTag() {
+//        return gamesWithTag;
+//    }
 
     public void setGamesWithTag(List<Game> gamesWithTag) {
         this.gamesWithTag = gamesWithTag;

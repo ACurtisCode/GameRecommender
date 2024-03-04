@@ -24,15 +24,15 @@ public class RatingController {
 
     //Read Operations
     @GetMapping("/{id}")
-    public Object findRating(@PathVariable("id") Long id) {
+    public Rating findRating(@PathVariable("id") Long id) {
         Rating rating = ratingServ.getRatingById(id);
         HashMap<String, Object> object = new HashMap<>();
-        object.put("ratingId", rating.getId());
-        object.put("ratingScore", rating.getRating());
-        object.put("ratingReview", rating.getReviewText());
-        object.put("ratingGame", rating.getReviewedGame().getTitle());
-        object.put("ratingUser", rating.getReviewCreator().getFirstName() + " " + rating.getReviewCreator().getLastName());
-        return object;
+//        object.put("ratingId", rating.getId());
+//        object.put("ratingScore", rating.getRating());
+//        object.put("ratingReview", rating.getReviewText());
+//        object.put("ratingGame", rating.getReviewedGame().getTitle());
+//        object.put("ratingUser", rating.getReviewCreator().getFirstName() + " " + rating.getReviewCreator().getLastName());
+        return rating;
     }
 
     //Create Operations
