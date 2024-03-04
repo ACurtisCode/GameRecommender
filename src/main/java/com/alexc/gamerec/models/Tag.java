@@ -40,9 +40,13 @@ public class Tag {
         this.name = name;
     }
 
-//    public List<Game> getGamesWithTag() {
-//        return gamesWithTag;
-//    }
+    public List<Long> getGamesWithTagIds() {
+        List<Long> gameIds = new ArrayList<Long>();
+        for(Game game : gamesWithTag) {
+            gameIds.add(game.getId());
+        }
+        return gameIds;
+    }
 
     public void setGamesWithTag(List<Game> gamesWithTag) {
         this.gamesWithTag = gamesWithTag;

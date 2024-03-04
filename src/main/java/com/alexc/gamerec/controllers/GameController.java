@@ -5,6 +5,9 @@ import com.alexc.gamerec.models.Tag;
 import com.alexc.gamerec.services.GameServ;
 import com.alexc.gamerec.services.TagServ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -19,17 +22,38 @@ public class GameController {
     TagServ tagServ;
 
     //Read Operations
+//    @RequestMapping("/{id}")
+//    @ResponseBody
+//    public Game findGame(@PathVariable("id") Long id) {
+//        Game game = gameServ.findGameById(id);
+//        return game;
+//    }
+//    @RequestMapping("/{id}")
+//    @ResponseBody
+//    public HashMap<String, Object> findGame(@PathVariable("id") Long id) {
+//        Game game = gameServ.findGameById(id);
+//        HashMap<String, Object> response = new HashMap<String, Object>();
+//        response.put("gameId", game.getId());
+//        response.put("title", game.getTitle());
+//        response.put("description", game.getDescription());
+//        response.put("tagList", game.getTagList());
+//        response.put("ratings", game.getRatingList());
+//        return response;
+//    }
     @RequestMapping("/{id}")
     @ResponseBody
-    public Game findGame(@PathVariable("id") Long id) {
+    public ResponseEntity<HashMap<String, Object>> findGame(@PathVariable("id") Long id) {
         Game game = gameServ.findGameById(id);
-//        HashMap<String, Object> object = new HashMap<>();
-//        object.put("gameId", game.getId());
-//        object.put("gameTitle", game.getTitle());
-//        object.put("gameDescription", game.getDescription());
-//        object.put("tagList", game.getTagList());
-//        return object;
-        return game;
+        if(game != null) {
+            HashMap<String, Object> response = new HashMap<String, Object>();
+            response.put("gameId", game.getId());
+            response.put("title", game.getTitle());
+            response.put("description", game.getDescription());
+            response.put("tagList", game.getTagList());
+            response.put("ratings", game.getRatingList());
+            return new ResponseEntity<HashMap<String, Object>>(response, HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
     @RequestMapping("/find")
     @ResponseBody

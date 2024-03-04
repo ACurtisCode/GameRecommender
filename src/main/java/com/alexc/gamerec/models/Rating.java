@@ -53,7 +53,7 @@ public class Rating {
         this.reviewText = reviewText;
     }
 
-    public Long getReviewedGame() {
+    public Long getReviewedGameId() {
         return reviewedGame.getId();
     }
 
@@ -61,9 +61,9 @@ public class Rating {
         this.reviewedGame = reviewedGame;
     }
 
-//    public User getReviewCreator() {
-//        return reviewCreator;
-//    }
+    public Long getReviewCreatorId() {
+        return reviewCreator.getId();
+    }
 
     public void setReviewCreator(User reviewCreator) {
         this.reviewCreator = reviewCreator;
