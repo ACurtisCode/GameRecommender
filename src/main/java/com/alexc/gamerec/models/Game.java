@@ -12,6 +12,10 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long rawgId;
+
+    private String slug;
+
     private String title;
 
     private String description;
@@ -27,6 +31,22 @@ public class Game {
         inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private List<Tag> tagList;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "games_genres",
+        joinColumns = @JoinColumn(name = "game_id"),
+        inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    private List<Genre> genreList;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "games_developers",
+        joinColumns = @JoinColumn(name = "game_id"),
+        inverseJoinColumns = @JoinColumn(name = "developer_id")
+    )
+    private List<Developer> developerList;
 
     public Game() {
 

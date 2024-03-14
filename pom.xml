@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.alexc</groupId>
-    <artifactId>gamerec</artifactId>
+    <artifactId>game-db-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>gamerec</name>
     <description>gamerec</description>
