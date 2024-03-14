@@ -40,48 +40,56 @@ public class GameController {
 //        response.put("ratings", game.getRatingList());
 //        return response;
 //    }
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<HashMap<String, Object>> findGame(@PathVariable("id") Long id) {
+    public ResponseEntity<Game> findGame(@PathVariable("id") Long id) {
         Game game = gameServ.findGameById(id);
         if(game != null) {
-            HashMap<String, Object> response = new HashMap<String, Object>();
-            response.put("gameId", game.getId());
-            response.put("title", game.getTitle());
-            response.put("description", game.getDescription());
-            response.put("tagList", game.getTagList());
-            response.put("ratings", game.getRatingList());
-            return new ResponseEntity<HashMap<String, Object>>(response, HttpStatus.OK);
+            Game returnGame = new Game();
+            returnGame.setTitle(game.getTitle());
+            returnGame.setDescription(game.getDescription());
+            returnGame.setSlug(game.getSlug());
+            returnGame.setRawgId(game.getRawgId());
+            return new ResponseEntity<Game>(returnGame, HttpStatus.OK);
         }
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
-    @RequestMapping("/find")
+    @GetMapping("/find")
     @ResponseBody
-    public List<Game> findGamesTitle(@RequestParam("title") String title) {
-        return gameServ.findGamesByTitle(title);
+    public ResponseEntity<List<Game>> findGamesTitle(@RequestParam("title") String title) {
+        List<Game> gameList = gameServ.findGamesByTitle(title);
+        if(gameList.size() > 0) {
+            return new ResponseEntity<List<Game>>(gameList, HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
     //Create Operations
     @PostMapping("/create")
     @ResponseBody
-    public Game createGame(@RequestBody Game game) {
-        return gameServ.createGame(game);
+    public ResponseEntity<Game> createGame(@RequestBody Game game) {
+        return new ResponseEntity<Game>(gameServ.createGame(game), HttpStatus.CREATED);
     }
 
     //Update Operations
     @PostMapping("/update/{id}")
     @ResponseBody
-    public Game updateGame(@RequestBody Game game, @PathVariable("id") Long id) {
+    public ResponseEntity<Game> updateGame(@RequestBody Game game, @PathVariable("id") Long id) {
         Game updateGame = gameServ.findGameById(id);
-        updateGame.setTitle(game.getTitle());
-        updateGame.setDescription(game.getDescription());
-        return gameServ.updateGame(updateGame);
+        if(updateGame != null) {
+            return new ResponseEntity<Game>(gameServ.createGame(game), HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
         //with IDs
     @PostMapping("/attachtag/{gameId}/{tagId}")
-    public void attachTag(@PathVariable("gameId") Long gameId, @PathVariable("tagId") Long tagId) {
+    public ResponseEntity attachTag(@PathVariable("gameId") Long gameId, @PathVariable("tagId") Long tagId) {
         Tag tag = tagServ.getTagById(tagId);
         Game game = gameServ.findGameById(gameId);
-        gameServ.addTag(game, tag);
+        if(tag!=null && game!=null) {
+            gameServ.addTag(game, tag);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
         //with JSON objects
     @PostMapping("/attachtag")

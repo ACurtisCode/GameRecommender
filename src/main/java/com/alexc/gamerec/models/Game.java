@@ -92,4 +92,36 @@ public class Game {
     public void setTagList(List<Tag> tagList) {
         this.tagList = tagList;
     }
+
+    public Long getRawgId() {
+        return rawgId;
+    }
+
+    public void setRawgId(Long rawgId) {
+        this.rawgId = rawgId;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    public List<Genre> getGenreList() {
+        return genreList;
+    }
+
+    public void setGenreList(List<Genre> genreList) {
+        this.genreList = genreList;
+    }
+
+    public List<Developer> getDeveloperList() {
+        return developerList;
+    }
+
+    public void setDeveloperList(List<Developer> developerList) {
+        this.developerList = developerList;
+    }
 }
