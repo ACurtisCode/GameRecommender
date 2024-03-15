@@ -8,6 +8,8 @@ import com.alexc.gamerec.services.GameServ;
 import com.alexc.gamerec.services.RatingServ;
 import com.alexc.gamerec.services.UserServ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -24,42 +26,56 @@ public class RatingController {
 
     //Read Operations
     @GetMapping("/{id}")
-    public Rating findRating(@PathVariable("id") Long id) {
+    @ResponseBody
+    public ResponseEntity<Rating> findRating(@PathVariable("id") Long id) {
         Rating rating = ratingServ.getRatingById(id);
-        HashMap<String, Object> object = new HashMap<>();
-//        object.put("ratingId", rating.getId());
-//        object.put("ratingScore", rating.getRating());
-//        object.put("ratingReview", rating.getReviewText());
-//        object.put("ratingGame", rating.getReviewedGame().getTitle());
-//        object.put("ratingUser", rating.getReviewCreator().getFirstName() + " " + rating.getReviewCreator().getLastName());
-        return rating;
+        if(rating != null) {
+            Rating returnRating = new Rating();
+            returnRating.setReviewText(rating.getReviewText());
+            returnRating.setRating(rating.getRating());
+            returnRating.setId(rating.getId());
+            return new ResponseEntity<Rating>(returnRating, HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     //Create Operations
     @PostMapping("/create/{userId}/{gameId}")
     @ResponseBody
-    public Rating createRating(@RequestBody Rating rating, @PathVariable("userId") Long userId, @PathVariable("gameId") Long gameId) {
+    public ResponseEntity<Rating> createRating(@RequestBody Rating rating, @PathVariable("userId") Long userId, @PathVariable("gameId") Long gameId) {
         User user = userServ.findUserById(userId);
         Game game = gameServ.findGameById(gameId);
-        rating.setReviewCreator(user);
-        rating.setReviewedGame(game);
-        return ratingServ.createRating(rating);
+        if(user!=null && game!=null) {
+            rating.setReviewCreator(user);
+            rating.setReviewedGame(game);
+            return new ResponseEntity<Rating>(ratingServ.createRating(rating), HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     //Update Operations
     @PostMapping("/update/{ratingId}")
     @ResponseBody
-    public Rating updateRating(@RequestBody Rating rating, @PathVariable("ratingId") Long id) {
+    public ResponseEntity<Rating> updateRating(@RequestBody Rating rating, @PathVariable("ratingId") Long id) {
         Rating updateRating = ratingServ.getRatingById(id);
-        updateRating.setRating(rating.getRating());
-        updateRating.setReviewText(rating.getReviewText());
-        return ratingServ.updateRating(updateRating);
+        if(updateRating != null) {
+            updateRating.setRating(rating.getRating());
+            updateRating.setReviewText(rating.getReviewText());
+            return new ResponseEntity<Rating>(ratingServ.updateRating(updateRating), HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     //Delete Operations
     @GetMapping("/delete/{ratingId}")
-    public void deleteRating(@PathVariable("ratingId") Long id) {
-        ratingServ.deleteRating(ratingServ.getRatingById(id));
+    @ResponseBody
+    public ResponseEntity deleteRating(@PathVariable("ratingId") Long id) {
+        Rating rating = ratingServ.getRatingById(id);
+        if(rating != null) {
+            ratingServ.deleteRating(rating);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
 }

@@ -4,6 +4,8 @@ import com.alexc.gamerec.models.Rating;
 import com.alexc.gamerec.models.User;
 import com.alexc.gamerec.services.UserServ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,44 +20,54 @@ public class UserController {
     //Read Operations
     @GetMapping("/{id}")
     @ResponseBody
-    public User findUser(@PathVariable("id") Long id) {
+    public ResponseEntity<User> findUser(@PathVariable("id") Long id) {
         User user = userServ.findUserById(id);
-//        HashMap<String, Object> object = new HashMap<>();
-//        object.put("id", user.getId());
-//        object.put("firstName", user.getFirstName());
-//        object.put("lastName", user.getLastName());
-//        return object;
-        return user;
+        if(user != null) {
+            return new ResponseEntity<User>(user, HttpStatus.OK);
+        }
+
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
     @GetMapping("/{id}/ratings")
     @ResponseBody
-    public List<Rating> findRatings(@PathVariable("id") Long id) {
+    public ResponseEntity<List<Rating>> findRatings(@PathVariable("id") Long id) {
         User user = userServ.findUserById(id);
-        return user.getUserRatings();
+        if (user != null) {
+            return new ResponseEntity<List<Rating>>(user.getUserRatings(), HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     //Create Operations
     @PostMapping("/create")
     @ResponseBody
-    public User createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         userServ.createUser(user);
-        return user;
+        return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
     //Update Operations
     @PostMapping("/update/{id}")
     @ResponseBody
-    public User updateUser(@RequestBody User user, @PathVariable("id") Long id) {
+    public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") Long id) {
         User updateUser = userServ.findUserById(id);
-        updateUser.setFirstName(user.getFirstName());
-        updateUser.setLastName(user.getLastName());
-        return userServ.updateUser(updateUser);
+        if(user != null) {
+            updateUser.setFirstName(user.getFirstName());
+            updateUser.setLastName(user.getLastName());
+            return new ResponseEntity<User>(userServ.updateUser(updateUser), HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     //Delete Operations
     @GetMapping("/delete/{id}")
-    public void deleteUser(@PathVariable("id") Long id) {
+    @ResponseBody
+    public ResponseEntity deleteUser(@PathVariable("id") Long id) {
         User user = userServ.findUserById(id);
-        userServ.deleteUser(user);
+        if(user != null) {
+            userServ.deleteUser(user);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 }

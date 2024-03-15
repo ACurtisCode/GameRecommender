@@ -82,6 +82,7 @@ public class GameController {
     }
         //with IDs
     @PostMapping("/attachtag/{gameId}/{tagId}")
+    @ResponseBody
     public ResponseEntity attachTag(@PathVariable("gameId") Long gameId, @PathVariable("tagId") Long tagId) {
         Tag tag = tagServ.getTagById(tagId);
         Game game = gameServ.findGameById(gameId);
@@ -100,9 +101,14 @@ public class GameController {
     //Delete Operations
         //With ID
     @GetMapping("/delete/{id}")
-    public void deleteGame(@PathVariable("id") Long id) {
+    @ResponseBody
+    public ResponseEntity deleteGame(@PathVariable("id") Long id) {
         Game game = gameServ.findGameById(id);
-        gameServ.deleteGame(game);
+        if(game != null) {
+            gameServ.deleteGame(game);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
         //With JSON object
     @GetMapping("/delete")
