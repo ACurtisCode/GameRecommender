@@ -4,6 +4,9 @@ import com.alexc.gamerec.models.Game;
 import com.alexc.gamerec.models.Tag;
 import com.alexc.gamerec.services.GameServ;
 import com.alexc.gamerec.services.TagServ;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -41,16 +44,17 @@ public class GameController {
 //        return response;
 //    }
     @GetMapping("/{id}")
+    @JsonIgnoreProperties({"ratingList", "tagList", "genreList", "developerList"})
     @ResponseBody
     public ResponseEntity<Game> findGame(@PathVariable("id") Long id) {
         Game game = gameServ.findGameById(id);
         if(game != null) {
             Game returnGame = new Game();
-            returnGame.setTitle(game.getTitle());
-            returnGame.setDescription(game.getDescription());
-            returnGame.setSlug(game.getSlug());
-            returnGame.setRawgId(game.getRawgId());
-            return new ResponseEntity<Game>(returnGame, HttpStatus.OK);
+//            returnGame.setTitle(game.getTitle());
+//            returnGame.setDescription(game.getDescription());
+//            returnGame.setSlug(game.getSlug());
+//            returnGame.setRawgId(game.getRawgId());
+            return new ResponseEntity<Game>(game, HttpStatus.OK);
         }
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
@@ -76,7 +80,7 @@ public class GameController {
     public ResponseEntity<Game> updateGame(@RequestBody Game game, @PathVariable("id") Long id) {
         Game updateGame = gameServ.findGameById(id);
         if(updateGame != null) {
-            return new ResponseEntity<Game>(gameServ.createGame(game), HttpStatus.OK);
+            return new ResponseEntity<Game>(gameServ.updateGame(game), HttpStatus.OK);
         }
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }

@@ -57,16 +57,16 @@ public class Rating {
         this.reviewText = reviewText;
     }
 
-    public Long getReviewedGameId() {
-        return reviewedGame.getId();
-    }
-
     public void setReviewedGame(Game reviewedGame) {
         this.reviewedGame = reviewedGame;
     }
 
-    public Long getReviewCreatorId() {
-        return reviewCreator.getId();
+    public Game getReviewedGame() {
+        return reviewedGame;
+    }
+
+    public User getReviewCreator() {
+        return reviewCreator;
     }
 
     public void setReviewCreator(User reviewCreator) {

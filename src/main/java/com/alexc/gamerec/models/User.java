@@ -1,5 +1,6 @@
 package com.alexc.gamerec.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class User {
 
     private String lastName;
 
+    @JsonIgnore
     @Column(updatable = false)
     @OneToMany(mappedBy="reviewCreator", fetch = FetchType.LAZY)
     private List<Rating> userRatings = new ArrayList<Rating>();

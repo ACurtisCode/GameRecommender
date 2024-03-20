@@ -1,5 +1,6 @@
 package com.alexc.gamerec.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -20,10 +21,12 @@ public class Game {
 
     private String description;
 
+    @JsonIgnore
     @Column(updatable = false)
     @OneToMany(mappedBy="reviewedGame", fetch = FetchType.LAZY)
     List<Rating> ratingList = new ArrayList<Rating>();
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "games_tags",
@@ -32,6 +35,7 @@ public class Game {
     )
     private List<Tag> tagList;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "games_genres",
@@ -40,6 +44,7 @@ public class Game {
     )
     private List<Genre> genreList;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "games_developers",
